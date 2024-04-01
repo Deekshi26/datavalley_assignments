@@ -1,54 +1,53 @@
-CHAPTER - 1
-INTRODUCTION
-1.1 PROBLEM STATEMENT
-CHAPTER - 2  
-LITERATURE SURVEY
-CHAPTER 3
-METHODOLOGY
-3.1 Overall Description of the Project:
-3.2 Dataset Description:
-3.3 Requirement Analysis
-   3.3.1	Functional Requirements
-   3.3.1.2	Non-Functional Requirements
-3.4 Implementation Tools and Analysis
-   3.4.1.1	Python 
-   3.4.1.2	Machine Learning
-3.5 Solution Approach
-EXISTING SYSTEM
-PROPOSED SYSTEM
-ADVANTAGES
-DISADVANTAGES
-APPLICATIONS
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-CHAPTER - 4
- IMPLEMENTATION 
-4.1 Control Flow Diagram
-4.2 Implementation Details and Issues:
-4.3 Algorithms:
-  4.3.1 SVM
-  4.3.2 Random Forest:
-  4.3.3   Logistic Regression:
-  4.3.4 Decision Trees:
+public ClassDepartment {
+    private int id;
+    private String name;
 
-CHAPTER 5
-INTRODUCTION TO PYTHON
+    public Department(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-CHAPTER 6
-INTRODUCTION TO MACHINE LEARNING
+    public static void main(String[] args) {
+        try {
+            // Connect to the database
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/departments", "username", "password");
 
-CHAPTER 7
-TESTING
-7.1	Unit Testing: 
-7.2	Integration Testing: 
-7.3	Functional Testing: 
+            // Create a PreparedStatement
+            String query = "INSERT INTO department (id, name) VALUES (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-CHAPTER 8
-RESULT AND ANALYSIS
+            // Insert Department objects into the database
+            Department department1 = new Department(1, "HR");
+            Department department2 = new Department(2, "IT");
 
-CHAPTER  9
-FINDINGS, CONCLUSIONS, AND FUTURE WORK
-9.1 Findings
-9.2 Conclusions
-9.3 Future Work
+            preparedStatement.setInt(1, department1.getId());
+            preparedStatement.setString(2, department1.getName());
+            preparedStatement.executeUpdate();
 
+            preparedStatement.setInt(1, department2.getId());
+            preparedStatement.setString(2, department2.getName());
+            preparedStatement.executeUpdate();
 
+            System.out.println("Department objects have been successfully stored in the database.");
+
+            // Close the resources
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
